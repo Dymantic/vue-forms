@@ -1,5 +1,4 @@
 {
-  "parserOpts": {
-    "plugins": []
-  }
+	"plugins": [],
+	"ignore" ['index.js']
 }
