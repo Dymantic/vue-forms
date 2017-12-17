@@ -1,0 +1,15 @@
+{
+  "name": "mj-vue-form",
+  "version": "0.0.1",
+  "description": "Base logic for Vuejs based form",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "vuejs",
+    "form"
+  ],
+  "author": "Michael Joyner",
+  "license": "ISC"
+}
