@@ -1,3 +1,1 @@
-export default {
-	hello(n) { console.log(n); }
-}
+export default "foo"
