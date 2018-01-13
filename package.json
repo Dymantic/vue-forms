@@ -2,7 +2,7 @@
   "name": "@dymantic/vue-forms",
   "version": "0.1.0",
   "description": "Form object and mixin for Vuejs based form",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test":
       "mocha-webpack --webpack-config webpack.config.js --require tests/setup.js tests/*.spec.js",
