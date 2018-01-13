@@ -1,20 +1,23 @@
 {
   "name": "@dymantic/vue-forms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Form object and mixin for Vuejs based form",
   "main": "dist/index.js",
   "scripts": {
-    "test":
-      "mocha-webpack --webpack-config webpack.config.js --require tests/setup.js tests/*.spec.js",
-    "watch":
-      "mocha-webpack --webpack-config webpack.config.js --watch --require tests/setup.js tests/*.spec.js"
+    "test": "mocha-webpack --webpack-config webpack.config.js --require tests/setup.js tests/*.spec.js",
+    "watch": "mocha-webpack --webpack-config webpack.config.js --watch --require tests/setup.js tests/*.spec.js"
   },
-  "keywords": ["vuejs", "form"],
+  "keywords": [
+    "vuejs",
+    "form"
+  ],
   "author": "Michael Joyner",
   "license": "ISC",
   "babel": {
     "plugins": [],
-    "ignore": ["index.js"]
+    "ignore": [
+      "index.js"
+    ]
   },
   "repository": {
     "type": "git",
