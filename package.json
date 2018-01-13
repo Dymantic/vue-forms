@@ -16,6 +16,10 @@
     "plugins": [],
     "ignore": ["index.js"]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dymantic/vue-forms"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
