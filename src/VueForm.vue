@@ -1,7 +1,7 @@
 <template>
   <div>
       <form action="" @submit.prevent="submit">
-          <slot name="form-body" :form="form"></slot>
+          <slot name="form-body" :form-data="form.data" :form-errors="form.errors"></slot>
           <div class="flex justify-end items-center p-4">
             <slot name="form-button-row"></slot>
             <button :disabled="waiting" type="submit" class="w-64">

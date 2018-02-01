@@ -2667,7 +2667,10 @@ var render = function() {
         }
       },
       [
-        _vm._t("form-body", null, { form: _vm.form }),
+        _vm._t("form-body", null, {
+          formData: _vm.form.data,
+          formErrors: _vm.form.errors
+        }),
         _vm._v(" "),
         _c(
           "div",
