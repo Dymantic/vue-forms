@@ -1046,7 +1046,7 @@ module.exports = Cancel;
   props: {
     "form-attributes": {
       type: Object,
-      default: { errors: {}, data: {} }
+      required: true
     },
     url: {
       type: String,
@@ -1069,7 +1069,7 @@ module.exports = Cancel;
   data() {
     return {
       can_update: true,
-      original_data: null,
+      original_data: { errors: {}, data: {} },
       waiting: false
     };
   },

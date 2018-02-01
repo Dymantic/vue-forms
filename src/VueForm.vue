@@ -25,7 +25,7 @@ export default {
   props: {
     "form-attributes": {
       type: Object,
-      default: { errors: {}, data: {} }
+      required: true
     },
     url: {
       type: String,
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       can_update: true,
-      original_data: null,
+      original_data: { errors: {}, data: {} },
       waiting: false
     };
   },
