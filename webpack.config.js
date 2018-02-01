@@ -1,6 +1,9 @@
 const path = require("path");
 
 module.exports = {
+  resolve: {
+    extensions: [".webpack.js", ".web.js", ".js", ".json", ".vue"]
+  },
   entry: path.resolve(__dirname + "/src/index.js"),
   output: {
     path: path.resolve(__dirname + "/dist/"),
