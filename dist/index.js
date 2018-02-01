@@ -2681,7 +2681,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "w-64",
+                staticClass: "w-64 text-center",
                 attrs: { disabled: _vm.waiting, type: "submit" }
               },
               [
@@ -2711,7 +2711,7 @@ var render = function() {
                         expression: "waiting"
                       }
                     ],
-                    staticClass: "spinner"
+                    staticClass: "spinner flex justify-center items-center"
                   },
                   [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]
                 )

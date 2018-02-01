@@ -4,9 +4,9 @@
           <slot name="form-body" :form-data="form.data" :form-errors="form.errors"></slot>
           <div class="flex justify-end items-center p-4">
             <slot name="form-button-row"></slot>
-            <button :disabled="waiting" type="submit" class="w-64">
+            <button :disabled="waiting" type="submit" class="w-64 text-center">
                 <span v-show="!waiting">{{ buttonText }}</span>
-                <div class="spinner" v-show="waiting">
+                <div class="spinner flex justify-center items-center" v-show="waiting">
                     <div></div>
                     <div></div>
                     <div></div>
