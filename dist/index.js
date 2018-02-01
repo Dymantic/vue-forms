@@ -1046,7 +1046,7 @@ module.exports = Cancel;
   props: {
     "form-attributes": {
       type: Object,
-      required: true
+      default: { errors: {}, data: {} }
     },
     url: {
       type: String,
@@ -1059,6 +1059,10 @@ module.exports = Cancel;
     "button-text": {
       type: String,
       default: "Submit"
+    },
+    "use-custom-submit": {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -2195,7 +2199,7 @@ exports = module.exports = __webpack_require__(34)(false);
 
 
 // module
-exports.push([module.i, "\n.spinner > div {\n  width: 1rem;\n  height: 1rem;\n  background-color: currentColor;\n  border-radius: 50%;\n  animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n.spinner > div:after {\n  content: \"\";\n  display: block;\n  padding-bottom: 100%;\n}\n.spinner .bounce1 {\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s;\n}\n.spinner .bounce2 {\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s;\n}\n@keyframes sk-bouncedelay {\n0%,\n  80%,\n  100% {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n}\n40% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.spinner > div {\n  width: 1rem;\n  height: 1rem;\n  margin: 0 8px;\n  background-color: currentColor;\n  border-radius: 50%;\n  animation: sk-bouncedelay 1.4s infinite ease-in-out both;\n}\n.spinner > div:after {\n  content: \"\";\n  display: block;\n  padding-bottom: 100%;\n}\n.spinner .bounce1 {\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s;\n}\n.spinner .bounce2 {\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s;\n}\n@keyframes sk-bouncedelay {\n0%,\n  80%,\n  100% {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n}\n40% {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n}\n}\n", ""]);
 
 // exports
 
@@ -2678,45 +2682,53 @@ var render = function() {
           [
             _vm._t("form-button-row"),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "w-64 text-center",
-                attrs: { disabled: _vm.waiting, type: "submit" }
-              },
-              [
-                _c(
-                  "span",
+            !_vm.useCustomSubmit
+              ? _c(
+                  "button",
                   {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.waiting,
-                        expression: "!waiting"
-                      }
-                    ]
+                    staticClass: "w-48 text-center",
+                    attrs: { disabled: _vm.waiting, type: "submit" }
                   },
-                  [_vm._v(_vm._s(_vm.buttonText))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    directives: [
+                  [
+                    _c(
+                      "span",
                       {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.waiting,
-                        expression: "waiting"
-                      }
-                    ],
-                    staticClass: "spinner flex justify-center items-center"
-                  },
-                  [_c("div"), _vm._v(" "), _c("div"), _vm._v(" "), _c("div")]
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.waiting,
+                            expression: "!waiting"
+                          }
+                        ]
+                      },
+                      [_vm._v(_vm._s(_vm.buttonText))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.waiting,
+                            expression: "waiting"
+                          }
+                        ],
+                        staticClass: "spinner flex justify-center items-center"
+                      },
+                      [
+                        _c("div"),
+                        _vm._v(" "),
+                        _c("div"),
+                        _vm._v(" "),
+                        _c("div")
+                      ]
+                    )
+                  ]
                 )
-              ]
-            )
+              : _vm._e()
           ],
           2
         )

@@ -4,7 +4,7 @@
           <slot name="form-body" :form-data="form.data" :form-errors="form.errors"></slot>
           <div class="flex justify-end items-center p-4">
             <slot name="form-button-row"></slot>
-            <button :disabled="waiting" type="submit" class="w-64 text-center">
+            <button v-if="!useCustomSubmit" :disabled="waiting" type="submit" class="w-48 text-center">
                 <span v-show="!waiting">{{ buttonText }}</span>
                 <div class="spinner flex justify-center items-center" v-show="waiting">
                     <div></div>
@@ -25,7 +25,7 @@ export default {
   props: {
     "form-attributes": {
       type: Object,
-      required: true
+      default: { errors: {}, data: {} }
     },
     url: {
       type: String,
@@ -38,6 +38,10 @@ export default {
     "button-text": {
       type: String,
       default: "Submit"
+    },
+    "use-custom-submit": {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -103,6 +107,7 @@ export default {
 .spinner > div {
   width: 1rem;
   height: 1rem;
+  margin: 0 8px;
   background-color: currentColor;
 
   border-radius: 50%;
