@@ -2,9 +2,9 @@
   <div>
       <form action="" @submit.prevent="submit">
           <slot name="form-body" :form-data="form.data" :form-errors="form.errors"></slot>
-          <div class="flex justify-end items-center p-4">
+          <div id="vue-form-btn-row" :class="button_row_classes">
             <slot name="form-button-row"></slot>
-            <button v-if="!useCustomSubmit" :disabled="waiting" type="submit" class="w-48 text-center">
+            <button v-if="!useCustomSubmit" :disabled="waiting" type="submit" :class="button_classes">
                 <span v-show="!waiting">{{ buttonText }}</span>
                 <div class="spinner flex justify-center items-center" v-show="waiting">
                     <div></div>
@@ -42,6 +42,14 @@ export default {
     "use-custom-submit": {
       type: Boolean,
       default: false
+    },
+    "button-classes": {
+      type: String,
+      default: ""
+    },
+    "button-row-classes": {
+      type: String,
+      default: ""
     }
   },
 
@@ -56,6 +64,18 @@ export default {
   computed: {
     form() {
       return this.can_update ? this.formAttributes : this.original_data;
+    },
+
+    button_classes() {
+      return this.buttonClasses === ""
+        ? "w-48 text-center"
+        : this.buttonClasses;
+    },
+
+    button_row_classes() {
+      return this.buttonRowClasses === ""
+        ? "flex justify-end items-center p-4"
+        : this.buttonRowClasses;
     }
   },
 

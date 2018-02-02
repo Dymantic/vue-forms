@@ -234,6 +234,38 @@ describe("a vue form component", () => {
     );
   });
 
+  it("allows a user to specify the class names for the submit button", () => {
+    let form_object = new Form({ name: "Testy", age: 88 });
+    let form_component = mount(VueForm, {
+      propsData: {
+        formAttributes: form_object,
+        url: "/test/form/url",
+        buttonText: "Test button text",
+        buttonClasses: "test-btn-class-1 test-btn-class-2"
+      }
+    });
+
+    const btn = form_component.find("form button[type=submit]");
+    assert.isTrue(btn.element.classList.contains("test-btn-class-1"));
+    assert.isTrue(btn.element.classList.contains("test-btn-class-2"));
+  });
+
+  it("allows the user to specify the class names for the button row", () => {
+    let form_object = new Form({ name: "Testy", age: 88 });
+    let form_component = mount(VueForm, {
+      propsData: {
+        formAttributes: form_object,
+        url: "/test/form/url",
+        buttonText: "Test button text",
+        buttonRowClasses: "test-btn-row-class-1 test-btn-row-class-2"
+      }
+    });
+
+    const btn_row = form_component.find("form #vue-form-btn-row");
+    assert.isTrue(btn_row.element.classList.contains("test-btn-row-class-1"));
+    assert.isTrue(btn_row.element.classList.contains("test-btn-row-class-2"));
+  });
+
   function submitForm(form_component) {
     let button = form_component.find("form");
     button.trigger("submit");

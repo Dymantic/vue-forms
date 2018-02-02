@@ -1063,6 +1063,14 @@ module.exports = Cancel;
     "use-custom-submit": {
       type: Boolean,
       default: false
+    },
+    "button-classes": {
+      type: String,
+      default: ""
+    },
+    "button-row-classes": {
+      type: String,
+      default: ""
     }
   },
 
@@ -1077,6 +1085,14 @@ module.exports = Cancel;
   computed: {
     form() {
       return this.can_update ? this.formAttributes : this.original_data;
+    },
+
+    button_classes() {
+      return this.buttonClasses === "" ? "w-48 text-center" : this.buttonClasses;
+    },
+
+    button_row_classes() {
+      return this.buttonRowClasses === "" ? "flex justify-end items-center p-4" : this.buttonRowClasses;
     }
   },
 
@@ -2678,7 +2694,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "flex justify-end items-center p-4" },
+          { class: _vm.button_row_classes, attrs: { id: "vue-form-btn-row" } },
           [
             _vm._t("form-button-row"),
             _vm._v(" "),
@@ -2686,7 +2702,7 @@ var render = function() {
               ? _c(
                   "button",
                   {
-                    staticClass: "w-48 text-center",
+                    class: _vm.button_classes,
                     attrs: { disabled: _vm.waiting, type: "submit" }
                   },
                   [
