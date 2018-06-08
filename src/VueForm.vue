@@ -1,7 +1,7 @@
 <template>
   <div>
       <form action="" @submit.prevent="submit">
-          <slot name="form-body" :form-data="form.data" :form-errors="form.errors"></slot>
+          <slot name="form-body" :form-data="form.data" :form-errors="form.errors" :waiting="waiting"></slot>
           <div id="vue-form-btn-row" :class="button_row_classes">
             <slot name="form-button-row"></slot>
             <button v-if="!useCustomSubmit" :disabled="waiting" type="submit" :class="button_classes">

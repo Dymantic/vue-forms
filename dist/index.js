@@ -2689,7 +2689,8 @@ var render = function() {
       [
         _vm._t("form-body", null, {
           formData: _vm.form.data,
-          formErrors: _vm.form.errors
+          formErrors: _vm.form.errors,
+          waiting: _vm.waiting
         }),
         _vm._v(" "),
         _c(
