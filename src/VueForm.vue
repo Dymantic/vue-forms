@@ -1,18 +1,7 @@
 <template>
   <div>
       <form action="" @submit.prevent="submit">
-          <slot name="form-body" :form-data="form.data" :form-errors="form.errors" :waiting="waiting"></slot>
-          <div id="vue-form-btn-row" :class="button_row_classes">
-            <slot name="form-button-row"></slot>
-            <button v-if="!useCustomSubmit" :disabled="waiting" type="submit" :class="button_classes">
-                <span v-show="!waiting">{{ buttonText }}</span>
-                <div class="spinner flex justify-center items-center" v-show="waiting">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </button>   
-          </div>
+          <slot :form-data="form.data" :form-errors="form.errors" :waiting="waiting"></slot>
       </form>
   </div>
 </template>
@@ -23,8 +12,8 @@ import axios from "axios";
 
 export default {
   props: {
-    "form-attributes": {
-      type: Object,
+    formModel: {
+      type: Form,
       required: true
     },
     url: {
@@ -32,22 +21,6 @@ export default {
       required: true
     },
     "redirects-to": {
-      type: String,
-      default: ""
-    },
-    "button-text": {
-      type: String,
-      default: "Submit"
-    },
-    "use-custom-submit": {
-      type: Boolean,
-      default: false
-    },
-    "button-classes": {
-      type: String,
-      default: ""
-    },
-    "button-row-classes": {
       type: String,
       default: ""
     }
@@ -63,28 +36,11 @@ export default {
 
   computed: {
     form() {
-      return this.can_update ? this.formAttributes : this.original_data;
-    },
-
-    button_classes() {
-      return this.buttonClasses === ""
-        ? "w-48 text-center"
-        : this.buttonClasses;
-    },
-
-    button_row_classes() {
-      return this.buttonRowClasses === ""
-        ? "flex justify-end items-center p-4"
-        : this.buttonRowClasses;
+      return this.can_update ? this.formModel : this.original_data;
     }
   },
 
-  mounted() {
-    if (!(this.formAttributes instanceof Form)) {
-      this.can_update = false;
-      this.original_data = new Form(this.formAttributes);
-    }
-  },
+  mounted() {},
 
   methods: {
     submit() {
@@ -123,43 +79,3 @@ export default {
 };
 </script>
 
-<style lang="scss" type="text/css">
-.spinner > div {
-  width: 1rem;
-  height: 1rem;
-  margin: 0 8px;
-  background-color: currentColor;
-
-  border-radius: 50%;
-  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-}
-
-.spinner > div:after {
-  content: "";
-  display: block;
-  padding-bottom: 100%;
-}
-
-.spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
-}
-
-@keyframes sk-bouncedelay {
-  0%,
-  80%,
-  100% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  }
-  40% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-</style>

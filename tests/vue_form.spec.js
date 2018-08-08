@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { mount } from "vue-test-utils";
+import { mount } from "@vue/test-utils";
 import sinon from "sinon";
 import moxios from "moxios";
 import VueForm from "../src/VueForm";
@@ -14,12 +14,11 @@ describe("a vue form component", () => {
     moxios.uninstall();
   });
 
-  it("needs a url props to be passed to it", () => {
+  it("the form url is passed as a prop", () => {
+    let form_object = new Form({ name: "Testy" });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: {
-          name: "Testy"
-        },
+        formModel: form_object,
         url: "/test/form/url"
       }
     });
@@ -27,37 +26,23 @@ describe("a vue form component", () => {
     assert.equal("/test/form/url", form_component.vm.url);
   });
 
-  it("accepts the form attributes prop as a json object", () => {
-    let form_component = mount(VueForm, {
-      propsData: {
-        formAttributes: {
-          name: "Testy"
-        }
-      }
-    });
-
-    assert.equal("Testy", form_component.vm.form.data.name);
-  });
-
-  it("can not be updated if the form attributes prop is not a Form instance", () => {
-    let form_component = mount(VueForm, {
-      propsData: {
-        formAttributes: {
-          name: "Testy"
-        }
-      }
-    });
-
-    form_component.setProps({ formAttributes: { name: "Updated name" } });
-
-    assert.equal("Testy", form_component.vm.form.data.name);
-  });
-
-  it("respects form atrributes prop updates if Form object is used", () => {
+  it("can be passed a Form instance as a form-model prop", () => {
     let form_object = new Form({ name: "Testy" });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object
+        formModel: form_object,
+        url: "/test/form/url"
+      }
+    });
+    assert.isTrue(form_component.vm.form instanceof Form);
+  });
+
+  it("reflects form model prop updates", () => {
+    let form_object = new Form({ name: "Testy" });
+    let form_component = mount(VueForm, {
+      propsData: {
+        formModel: form_object,
+        url: "/test/form/url"
       }
     });
 
@@ -66,11 +51,11 @@ describe("a vue form component", () => {
     assert.equal("Updated name", form_component.vm.form.data.name);
   });
 
-  it("submits the form via axios if the submit button is clicked", done => {
+  it("submits the form via axios", done => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url"
       }
     });
@@ -92,7 +77,7 @@ describe("a vue form component", () => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url"
       }
     });
@@ -116,7 +101,7 @@ describe("a vue form component", () => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url"
       }
     });
@@ -139,7 +124,7 @@ describe("a vue form component", () => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url"
       }
     });
@@ -158,47 +143,11 @@ describe("a vue form component", () => {
     });
   });
 
-  it("shows the waiting button durin submission request", done => {
-    let form_object = new Form({ name: "Testy", age: 88 });
-    let form_component = mount(VueForm, {
-      propsData: {
-        formAttributes: form_object,
-        url: "/test/form/url"
-      }
-    });
-
-    submitForm(form_component);
-
-    moxios.wait(() => {
-      const spinner = form_component.find(".spinner");
-      assert.notEqual("none", spinner.element.style.display);
-      done();
-    });
-  });
-
-  it("has a disabled submit button when waiting on request", done => {
-    let form_object = new Form({ name: "Testy", age: 88 });
-    let form_component = mount(VueForm, {
-      propsData: {
-        formAttributes: form_object,
-        url: "/test/form/url"
-      }
-    });
-
-    submitForm(form_component);
-
-    moxios.wait(() => {
-      const button = form_component.find("form button[type=submit]");
-      assert.isTrue(button.element.disabled);
-      done();
-    });
-  });
-
   it("redirects on successfull submission if redirects-to prop is given", done => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url",
         redirectsTo: "/test/redirect/url"
       }
@@ -218,56 +167,73 @@ describe("a vue form component", () => {
     });
   });
 
-  it("can have the submit button text be replaced using an optional prop", () => {
+  it("makes the form data available in the default slot", () => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url",
-        buttonText: "Test button text"
+        redirectsTo: "/test/redirect/url"
+      },
+      scopedSlots: {
+        default: "<div id='test-slot'>{{ props.formData.name }}</div>"
       }
     });
 
-    assert.equal(
-      "Test button text",
-      form_component.find("form button[type=submit] > span").element.innerHTML
+    assert.isTrue(
+      form_component.find("#test-slot").element.innerHTML === "Testy"
     );
   });
 
-  it("allows a user to specify the class names for the submit button", () => {
+  it("makes the form errors available in the default slot", () => {
     let form_object = new Form({ name: "Testy", age: 88 });
+    form_object.setValidationErrors({ name: ["Test Error"] });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url",
-        buttonText: "Test button text",
-        buttonClasses: "test-btn-class-1 test-btn-class-2"
+        redirectsTo: "/test/redirect/url"
+      },
+      scopedSlots: {
+        default: "<div id='test-slot'>{{ props.formErrors.name }}</div>"
       }
     });
 
-    const btn = form_component.find("form button[type=submit]");
-    assert.isTrue(btn.element.classList.contains("test-btn-class-1"));
-    assert.isTrue(btn.element.classList.contains("test-btn-class-2"));
+    assert.isTrue(
+      form_component.find("#test-slot").element.innerHTML === "Test Error"
+    );
   });
 
-  it("allows the user to specify the class names for the button row", () => {
+  it("makes the waiting status available in the default slot", () => {
     let form_object = new Form({ name: "Testy", age: 88 });
     let form_component = mount(VueForm, {
       propsData: {
-        formAttributes: form_object,
+        formModel: form_object,
         url: "/test/form/url",
-        buttonText: "Test button text",
-        buttonRowClasses: "test-btn-row-class-1 test-btn-row-class-2"
+        redirectsTo: "/test/redirect/url"
+      },
+      scopedSlots: {
+        default:
+          "<div id='test-slot'>{{ props.waiting ? 'Test Waiting True' : 'Test Waiting False' }}</div>"
       }
     });
+    form_component.setData({ waiting: true });
 
-    const btn_row = form_component.find("form #vue-form-btn-row");
-    assert.isTrue(btn_row.element.classList.contains("test-btn-row-class-1"));
-    assert.isTrue(btn_row.element.classList.contains("test-btn-row-class-2"));
+    assert.isTrue(
+      form_component.find("#test-slot").element.innerHTML ===
+        "Test Waiting True"
+    );
+
+    form_component.setData({ waiting: false });
+
+    assert.isTrue(
+      form_component.find("#test-slot").element.innerHTML ===
+        "Test Waiting False"
+    );
   });
 
   function submitForm(form_component) {
-    let button = form_component.find("form");
-    button.trigger("submit");
+    let form = form_component.find("form");
+    form.trigger("submit");
   }
 });
