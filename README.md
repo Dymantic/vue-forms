@@ -30,7 +30,7 @@ const form = new Form({
 // form.data.school === "Hogwarts"
 ```
 
-Contunuing with the example above, the form object can be used as such:
+Continuing with the example above, the form object can be used as such:
 
 ```
 form.data.username = "Victor"
